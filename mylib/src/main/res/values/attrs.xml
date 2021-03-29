@@ -4,5 +4,8 @@
         <attr name="my_attr" format="reference"/>
         <attr name="src_increase" format="reference"/>
         <attr name="src_decrease" format="reference"/>
+        <attr name="maxValue" format="float"/>
+        <attr name="minValue" format="float"/>
+        <attr name="stepValue" format="float"/>
     </declare-styleable>
 </resources>

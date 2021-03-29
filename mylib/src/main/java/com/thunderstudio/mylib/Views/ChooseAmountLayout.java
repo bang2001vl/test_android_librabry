@@ -21,7 +21,6 @@ import com.thunderstudio.mylib.R;
 
 
 public class ChooseAmountLayout extends LinearLayout {
-    private Observer<Float> observerNumber;
     private ChooseNumberLayoutController controller;
 
     private Context context;
@@ -35,40 +34,27 @@ public class ChooseAmountLayout extends LinearLayout {
         ImageButton btnIncrease = findViewById(R.id.btn_increase);
         ImageButton btnDecrease = findViewById(R.id.btn_decrease);
 
-        observerNumber = new Observer<Float>() {
-            @Override
-            public void onChanged(Float aFloat) {
-                editText.setText(String.valueOf(aFloat));
-            }
-        };
-
-        controller = new ChooseNumberLayoutController(1, 80, 1);
-        btnIncrease.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                controller.Increase();
-            }
-        });
-
-        btnDecrease.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                controller.Decrease();
-            }
-        });
-
-        controller.setOnPropertyChanged(new INotifyPropertiesChanged() {
-            @Override
-            public void OnPropertyChanged(String propertyName) {
-                editText.setText(String.valueOf((int)controller.getNumber()));
-            }
-        });
-
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ChooseAmountLayout);
+
         int drawable_increase =  a.getResourceId(R.styleable.ChooseAmountLayout_src_increase, R.color.design_default_color_error);
         int drawable_decrease =  a.getResourceId(R.styleable.ChooseAmountLayout_src_decrease, R.color.design_default_color_error);
+
         btnDecrease.setImageResource(drawable_decrease);
         btnIncrease.setImageResource(drawable_increase);
+
+        float min = a.getFloat(R.styleable.ChooseAmountLayout_minValue, 1f);
+        float max = a.getFloat(R.styleable.ChooseAmountLayout_maxValue, 10f);
+        float step = a.getFloat(R.styleable.ChooseAmountLayout_stepValue, 1f);
+
+        controller = new ChooseNumberLayoutController(min, max, step);
+
+        btnIncrease.setOnClickListener(v -> controller.Increase());
+
+        btnDecrease.setOnClickListener(v -> controller.Decrease());
+
+        controller.setOnPropertyChanged(propertyName ->
+                editText.setText(String.valueOf((int)controller.getNumber())));
+
         a.recycle();
     }
 
