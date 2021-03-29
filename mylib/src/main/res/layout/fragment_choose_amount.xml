@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.thunderstudio.mylib.ChooseAmountFragmentViewModel" />
+    </data>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <ImageButton
+            android:layout_width="@dimen/normal_button_size"
+            android:layout_height="@dimen/normal_button_size"
+            android:id="@+id/btn_decrease"
+            android:background="@color/design_default_color_primary_dark"
+            android:layout_gravity="center_vertical"
+            />
+        <com.thunderstudio.mylib.Views.ChooseAmountLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@={viewmodel.amountString, default=1}"
+            android:minWidth="50dp"
+            android:inputType="numberSigned"
+            android:importantForAutofill="no"
+
+            />
+        <ImageButton
+            android:layout_width="@dimen/normal_button_size"
+            android:layout_height="@dimen/normal_button_size"
+            android:id="@+id/btn_increase"
+            android:background="@color/design_default_color_error"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+</layout>
