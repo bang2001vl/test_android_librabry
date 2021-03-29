@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,30 +15,45 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.lifecycle.Observer;
 
 import com.thunderstudio.mylib.INotifyPropertiesChanged;
+import com.thunderstudio.mylib.OnValueChanged;
 import com.thunderstudio.mylib.R;
 
 
 public class ChooseAmountLayout extends LinearLayout {
-    private ChooseNumberLayoutController controller;
+    public ChooseNumberLayoutController controller;
 
-    private Context context;
+    private final Context context;
+    public EditText editText;
+    public ImageButton btnIncrease;
+    public ImageButton btnDecrease;
+    public LinearLayout layout;
+
     @SuppressLint("UseCompatLoadingForDrawables")
     public ChooseAmountLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
 
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.layout_choose_amount, this, true);
-        EditText editText = findViewById(R.id.input_amount);
-        ImageButton btnIncrease = findViewById(R.id.btn_increase);
-        ImageButton btnDecrease = findViewById(R.id.btn_decrease);
-
+        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.layout_choose_amount, this, false);
+        editText = layout.findViewById(R.id.input_amount);
+        btnIncrease = layout.findViewById(R.id.btn_increase);
+        btnDecrease = layout.findViewById(R.id.btn_decrease);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ChooseAmountLayout);
 
-        int drawable_increase =  a.getResourceId(R.styleable.ChooseAmountLayout_src_increase, R.color.design_default_color_error);
-        int drawable_decrease =  a.getResourceId(R.styleable.ChooseAmountLayout_src_decrease, R.color.design_default_color_error);
+        int buttonSize = a.getDimensionPixelOffset(R.styleable.ChooseAmountLayout_button_size, getResources().getDimensionPixelSize(R.dimen.normal_button_size));
+        int drawable_increase = a.getResourceId(R.styleable.ChooseAmountLayout_src_increase, R.mipmap.ic_plus);
+        int drawable_decrease = a.getResourceId(R.styleable.ChooseAmountLayout_src_decrease, R.mipmap.ic_minus);
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) btnDecrease.getLayoutParams();
+        params.width = params.height = buttonSize;
+        btnDecrease.setLayoutParams(params);
+
+        params = (LinearLayout.LayoutParams) btnIncrease.getLayoutParams();
+        params.width = params.height = buttonSize;
+        btnIncrease.setLayoutParams(params);
 
         btnDecrease.setImageResource(drawable_decrease);
         btnIncrease.setImageResource(drawable_increase);
@@ -53,62 +69,12 @@ public class ChooseAmountLayout extends LinearLayout {
         btnDecrease.setOnClickListener(v -> controller.Decrease());
 
         controller.setOnPropertyChanged(propertyName ->
-                editText.setText(String.valueOf((int)controller.getNumber())));
+                editText.setText(String.valueOf((int) controller.getNumber())));
 
         a.recycle();
-    }
-
-    public class ChooseNumberLayoutController{
-        public final float min;
-        public final float max;
-        public final float step;
-
-        private float number;
-        public float getNumber(){return  number;}
-
-        private INotifyPropertiesChanged onPropertyChanged;
-
-        public void setOnPropertyChanged(INotifyPropertiesChanged onPropertyChanged) {
-            this.onPropertyChanged = onPropertyChanged;
-        }
-
-        public void setNumber(float val)
-        {
-            if(val > max){val = max;}
-            if(val < min){val = min;}
-            if(number != val)
-            {
-                number = val;
-                onPropertyChanged.OnPropertyChanged("number");
-            }
-        }
-
-        public void Increase()
-        {
-            setNumber(number+step);
-        }
-
-        public void Decrease()
-        {
-            setNumber(number-step);
-        }
-
-        public ChooseNumberLayoutController(float min, float max, float step)
-        {
-            this.min = min;
-            this.max = max;
-            this.step = step;
-
-            number = min;
-
-            onPropertyChanged = new INotifyPropertiesChanged() {
-                @Override
-                public void OnPropertyChanged(String propertyName) {
-                    // TODO
-                }
-            };
-        }
+        this.addView(layout, layout.getLayoutParams());
     }
 }
+
 
 

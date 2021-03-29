@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ChooseAmountLayout">
-        <attr name="my_attr" format="reference"/>
+        <attr name="button_size" format="dimension"/>
         <attr name="src_increase" format="reference"/>
         <attr name="src_decrease" format="reference"/>
         <attr name="maxValue" format="float"/>

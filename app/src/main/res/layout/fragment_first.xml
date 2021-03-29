@@ -14,7 +14,8 @@
         app:src_increase="@mipmap/ic_plus"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        >
+    </com.thunderstudio.mylib.Views.ChooseAmountLayout>
     <TextView
         android:id="@+id/textview_first"
         android:layout_width="wrap_content"

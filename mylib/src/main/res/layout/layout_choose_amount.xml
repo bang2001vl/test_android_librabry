@@ -6,8 +6,8 @@
     android:orientation="horizontal"
     >
     <ImageButton
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/normal_button_size"
+        android:layout_height="@dimen/normal_button_size"
         android:id="@+id/btn_decrease"
         android:src="@mipmap/ic_minus"
         android:background="@color/transparent"
@@ -26,8 +26,8 @@
         android:layout_gravity="center"
         />
     <ImageButton
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/normal_button_size"
+        android:layout_height="@dimen/normal_button_size"
         android:id="@+id/btn_increase"
         android:src="@mipmap/ic_plus"
         android:background="@color/transparent"
